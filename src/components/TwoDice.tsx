@@ -31,8 +31,8 @@ export function TwoDice(): React.JSX.Element {
                 <span data-testid="right-die">{rightD}</span>
             </div>
             <div>
-                <Button onClick={rightRoll}>Roll Left</Button>{" "}
-                <Button onClick={leftRoll}>Roll Right</Button>
+                <Button onClick={leftRoll}>Roll Left</Button>{" "}
+                <Button onClick={rightRoll}>Roll Right</Button>
             </div>
             <div>
                 {Losing && <span>Lose</span>}

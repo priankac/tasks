@@ -14,6 +14,7 @@ function App(): React.JSX.Element {
             <header className="App-header">
                 <h1>UD CISC275 with React Hooks and TypeScript</h1>
             </header>
+            <div>Hello World</div>
             <hr></hr>
             <Counter></Counter>
             <hr />
