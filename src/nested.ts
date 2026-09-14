@@ -62,7 +62,7 @@ export function getNames(questions: Question[]): string[] {
  */
 export function sumPoints(questions: Question[]): number {
     return questions.reduce(
-        (sum: Number, ask: Question): number => ask.points,
+        (sum: number, ask: Question): number => sum + ask.points,
         0,
     );
 }
@@ -101,7 +101,7 @@ export function toCSV(questions: Question[]): string {
             question.published,
         ].join(","),
     );
-    return ["id, name, options, points, published", ...data_table].join("\n");
+    return ["id,name,options,points,published", ...data_table].join("\n");
 }
 
 /**
@@ -135,7 +135,10 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
-    return false;
+    const any_type: Set<QuestionType> = new Set(
+        questions.map((ask: Question): QuestionType => ask.type),
+    );
+    return any_type.size <= 1;
 }
 
 /***
@@ -149,7 +152,7 @@ export function addNewQuestion(
     name: string,
     type: QuestionType,
 ): Question[] {
-    return [];
+    return [...questions, makeBlankQuestion(id, name, type)];
 }
 
 /***
@@ -162,7 +165,12 @@ export function renameQuestionById(
     targetId: number,
     newName: string,
 ): Question[] {
-    return [];
+    return questions.map(
+        (question: Question): Question =>
+            question.id === targetId ?
+                { ...question, name: newName }
+            :   question,
+    );
 }
 
 /***
@@ -177,7 +185,18 @@ export function changeQuestionTypeById(
     targetId: number,
     newQuestionType: QuestionType,
 ): Question[] {
-    return [];
+    return questions.map((ask: Question): Question => {
+        if (ask.id !== targetId) {
+            return ask;
+        }
+        const delete_type: boolean =
+            newQuestionType !== "multiple_choice_question";
+        return {
+            ...ask,
+            type: newQuestionType,
+            options: delete_type ? [] : ask.options,
+        };
+    });
 }
 
 /**
@@ -196,7 +215,18 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string,
 ): Question[] {
-    return [];
+    return questions.map((ask: Question): Question => {
+        if (ask.id !== targetId) {
+            return ask;
+        }
+        const option: string[] =
+            targetOptionIndex === -1 ?
+                [...ask.options, newOption]
+            :   ask.options.map((choice: string, index: number): string =>
+                    index === targetOptionIndex ? newOption : choice,
+                );
+        return { ...ask, options: option };
+    });
 }
 
 /***
@@ -210,5 +240,7 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number,
 ): Question[] {
-    return [];
+    return questions.flatMap((ask: Question): Question[] =>
+        ask.id === targetId ? [ask, duplicateQuestion(newId, ask)] : [ask],
+    );
 }
