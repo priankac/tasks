@@ -32,5 +32,25 @@ const Yearly: Record<Holiday, Holiday> = {
 };
 
 export function CycleHoliday(): React.JSX.Element {
-    return <div>Cycle Holiday</div>;
+    const [holiday, setHoliday] = useState<Holiday>("Lunar New Year");
+
+    return (
+        <div>
+            <div>Holiday: {Holiday_Img[holiday]}</div>
+            <Button
+                onClick={() => {
+                    setHoliday(Alphabetical_Order[holiday]);
+                }}
+            >
+                Advance by Alphabet
+            </Button>
+            <Button
+                onClick={() => {
+                    setHoliday(Yearly[holiday]);
+                }}
+            >
+                Advance by Year
+            </Button>
+        </div>
+    );
 }
