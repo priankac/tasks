@@ -10,14 +10,19 @@ import { Button } from "react-bootstrap";
 export function d6(): number {
     return 1 + Math.floor(Math.random() * 6);
 }
+function rollDiff(): [number, number] {
+    const left: number = d6();
+    let right: number = d6();
+    while (right === left) {
+        right = d6();
+    }
+    return [left, right];
+}
 
 export function TwoDice(): React.JSX.Element {
-    const [lDie, setL] = useState<number>(() => d6());
-    const [rDie, setR] = useState<number>(() => {
-        const first: number = d6();
-        const second: number = d6();
-        return second === first ? (second % 6) + 1 : second;
-    });
+    const [Left, Right] = rollDiff();
+    const [lDie, setL] = useState<number>(Left);
+    const [rDie, setR] = useState<number>(Right);
     return (
         <div>
             <span data-testid="left-die">{lDie}</span>{" "}
