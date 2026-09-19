@@ -12,8 +12,8 @@ export function d6(): number {
 }
 
 export function TwoDice(): React.JSX.Element {
-    const [lDie, setL] = useState<number>(() => d6());
-    const [rDie, setR] = useState<number>(() => d6());
+    const [lDie, setL] = useState<number>(1);
+    const [rDie, setR] = useState<number>(2);
 
     return (
         <div>
