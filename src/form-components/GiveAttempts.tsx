@@ -16,6 +16,7 @@ export function GiveAttempts(): React.JSX.Element {
     return (
         <div>
             <h3>Give Attempts</h3>
+            <div>Attempts: {attmpts}</div>
             <Form.Group controlId="requestedAttempts">
                 <Form.Label>Requested Attempts:</Form.Label>
                 <Form.Control
@@ -29,7 +30,7 @@ export function GiveAttempts(): React.JSX.Element {
             <Button disabled={attmpts === 0} onClick={handleUse}>
                 use
             </Button>
-            <Button onClick={handleGains}>gain with each use</Button>
+            <Button onClick={handleGains}>gain</Button>
         </div>
     );
 }
