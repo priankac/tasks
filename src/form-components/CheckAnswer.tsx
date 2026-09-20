@@ -10,6 +10,16 @@ export function CheckAnswer({
     return (
         <div>
             <h3>Check Answer</h3>
+            <Form.Group controlId="checkAnswerInput">
+                <Form.Label>The Answer is:</Form.Label>
+                <Form.Control
+                    value={ans}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setAns(event.target.value);
+                    }}
+                />
+            </Form.Group>
+            <div>{ans === expectedAnswer ? "✔️" : "❌"}</div>
         </div>
     );
 }
